@@ -1,0 +1,7 @@
+secureshift/service/GuardServiceTest.class
+secureshift/util/GeoUtilsTest.class
+secureshift/domain/SiteTest.class
+secureshift/integration/DatabaseIntegrationTest.class
+secureshift/application/SchedulerTest.class
+secureshift/domain/GuardTest.class
+secureshift/domain/ShiftTest.class

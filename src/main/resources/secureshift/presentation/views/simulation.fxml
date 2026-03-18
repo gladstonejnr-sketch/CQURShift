@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.web.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="secureshift.presentation.controllers.SimulationController"
+      prefWidth="1100" prefHeight="750"
+      stylesheets="@../css/liquid-glass.css"
+      style="-fx-padding: 0; -fx-background-color: #060818;">
+
+    <!-- Header -->
+    <HBox styleClass="glass-topbar" alignment="CENTER_LEFT" spacing="12">
+        <Label text="Simulation Centre"
+               style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white;"/>
+    </HBox>
+
+    <TabPane VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE">
+
+        <!-- TAB 1: LIVE MAP -->
+        <Tab text="Live Guard Map">
+            <VBox spacing="12" style="-fx-padding: 16; -fx-background-color: #060818;">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="btnStartMap" text="Start Simulation" onAction="#startMapSimulation"
+                            styleClass="btn-success"/>
+                    <Button fx:id="btnStopMap"  text="Stop"             onAction="#stopMapSimulation"
+                            styleClass="btn-danger" disable="true"/>
+                    <Label text="Speed:" styleClass="field-label"/>
+                    <Slider fx:id="speedSlider" min="0.5" max="5.0" value="1.0" prefWidth="140"
+                            showTickLabels="true" showTickMarks="true" majorTickUnit="1"/>
+                    <Label fx:id="speedLabel" text="1.0x"
+                           style="-fx-font-weight:bold; -fx-text-fill:white; -fx-min-width:40;"/>
+                    <Label fx:id="mapStatusLabel" styleClass="status-label" HBox.hgrow="ALWAYS"/>
+                </HBox>
+                <WebView fx:id="simMapView" VBox.vgrow="ALWAYS" prefHeight="620"/>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 2: AUTO-ASSIGN -->
+        <Tab text="Auto-Assign">
+            <VBox spacing="16" style="-fx-padding: 24; -fx-background-color: #060818;">
+                <Label text="Auto-Assign Guards to Shifts" styleClass="title-label"/>
+                <Label text="Runs the Nearest Guard Strategy — assigns the closest available guard to each unassigned shift."
+                       styleClass="subtitle-label"/>
+
+                <HBox spacing="10">
+                    <Button fx:id="btnAutoAssign"       text="Run Auto-Assign"      onAction="#runAutoAssign"
+                            styleClass="btn-primary"/>
+                    <Button fx:id="btnClearAssignments" text="Clear All Assignments" onAction="#clearAllAssignments"
+                            styleClass="btn-danger"/>
+                </HBox>
+
+                <ProgressBar fx:id="assignProgress" prefWidth="600" prefHeight="14" progress="0"/>
+
+                <Label fx:id="assignSummaryLabel" styleClass="status-label"
+                       style="-fx-font-size:14; -fx-font-weight:bold;"/>
+
+                <TextArea fx:id="assignLog" VBox.vgrow="ALWAYS" editable="false" prefHeight="380"
+                          style="-fx-control-inner-background:#050810; -fx-text-fill:#34d399; -fx-font-size:12;"/>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 3: SHIFT STATUS -->
+        <Tab text="Shift Status Monitor">
+            <VBox spacing="12" style="-fx-padding: 16; -fx-background-color: #060818;">
+                <Label text="Real-Time Shift Status" styleClass="title-label"/>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="btnStartStatusMonitor" text="Start Monitor" onAction="#startStatusMonitor"
+                            styleClass="btn-success"/>
+                    <Button fx:id="btnStopStatusMonitor"  text="Stop"          onAction="#stopStatusMonitor"
+                            styleClass="btn-danger" disable="true"/>
+                    <Button text="Refresh Now" onAction="#refreshStatusNow"
+                            styleClass="btn-muted"/>
+                </HBox>
+
+                <Label fx:id="statusMonitorLabel" styleClass="subtitle-label"/>
+
+                <HBox spacing="10">
+                    <Label text="Active"    styleClass="legend-pill legend-active"/>
+                    <Label text="Upcoming"  styleClass="legend-pill legend-upcoming"/>
+                    <Label text="Completed" styleClass="legend-pill legend-done"/>
+                </HBox>
+
+                <TableView fx:id="statusTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colShiftId"     text="Shift ID"  prefWidth="130"/>
+                        <TableColumn fx:id="colSiteName"    text="Site"      prefWidth="170"/>
+                        <TableColumn fx:id="colGuardName"   text="Guard"     prefWidth="150"/>
+                        <TableColumn fx:id="colStartTime"   text="Start"     prefWidth="130"/>
+                        <TableColumn fx:id="colEndTime"     text="End"       prefWidth="130"/>
+                        <TableColumn fx:id="colShiftStatus" text="Status"    prefWidth="120"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 4: LIVE DASHBOARD -->
+        <Tab text="Live Dashboard">
+            <VBox spacing="14" style="-fx-padding: 16; -fx-background-color: #060818;">
+
+                <!-- Stat cards -->
+                <HBox spacing="12">
+                    <VBox styleClass="stat-card" style="-fx-border-color: rgba(62,207,255,0.30);">
+                        <Label text="Guards"   styleClass="stat-card-label"/>
+                        <Label fx:id="statGuards"   text="—" styleClass="stat-card-value"
+                               style="-fx-text-fill: #3ecfff;"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" style="-fx-border-color: rgba(167,139,250,0.30);">
+                        <Label text="Sites"    styleClass="stat-card-label"/>
+                        <Label fx:id="statSites"    text="—" styleClass="stat-card-value"
+                               style="-fx-text-fill: #a78bfa;"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" style="-fx-border-color: rgba(251,191,36,0.30);">
+                        <Label text="Shifts"   styleClass="stat-card-label"/>
+                        <Label fx:id="statShifts"   text="—" styleClass="stat-card-value"
+                               style="-fx-text-fill: #fbbf24;"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" style="-fx-border-color: rgba(52,211,153,0.30);">
+                        <Label text="Assigned" styleClass="stat-card-label"/>
+                        <Label fx:id="statAssigned" text="—" styleClass="stat-card-value"
+                               style="-fx-text-fill: #34d399;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Controls -->
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="btnRefreshDash"   text="Refresh Now"   onAction="#refreshDashboard"
+                            styleClass="btn-muted"/>
+                    <Button fx:id="btnStartLiveDash" text="Live Updates"  onAction="#startLiveDashboard"
+                            styleClass="btn-success"/>
+                    <Button fx:id="btnStopLiveDash"  text="Stop"          onAction="#stopLiveDashboard"
+                            styleClass="btn-danger" disable="true"/>
+                    <Label fx:id="dashStatusLabel" styleClass="status-label" HBox.hgrow="ALWAYS"/>
+                </HBox>
+
+                <!-- Charts -->
+                <HBox spacing="12" VBox.vgrow="ALWAYS">
+                    <PieChart fx:id="utilChart"  title="Guard Utilisation"
+                              prefWidth="310" prefHeight="340" HBox.hgrow="ALWAYS" animated="true"/>
+                    <BarChart fx:id="siteChart"  title="Shifts per Site"
+                              prefWidth="370" prefHeight="340" HBox.hgrow="ALWAYS" animated="true">
+                        <xAxis><CategoryAxis label="Site"/></xAxis>
+                        <yAxis><NumberAxis label="Shifts"/></yAxis>
+                    </BarChart>
+                    <LineChart fx:id="trendChart" title="Shift Trend by Day"
+                               prefWidth="350" prefHeight="340" HBox.hgrow="ALWAYS" animated="true">
+                        <xAxis><CategoryAxis label="Date"/></xAxis>
+                        <yAxis><NumberAxis label="Count"/></yAxis>
+                    </LineChart>
+                </HBox>
+            </VBox>
+        </Tab>
+
+    </TabPane>
+</VBox>
+

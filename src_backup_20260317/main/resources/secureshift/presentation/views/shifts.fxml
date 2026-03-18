@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="secureshift.presentation.controllers.ShiftsController"
+      prefWidth="1000" prefHeight="600" spacing="12"
+      stylesheets="@../css/liquid-glass.css"
+      style="-fx-padding: 20; -fx-background-color: #060818;">
+
+    <Label text="Shifts" styleClass="title-label"/>
+
+    <HBox spacing="8" style="-fx-padding: 4 0;">
+        <Button text="Create Shift" onAction="#createShift" styleClass="btn-warn"/>
+        <Button text="Delete"       onAction="#deleteShift" styleClass="btn-danger"/>
+        <Button text="Refresh"      onAction="#refresh"     styleClass="btn-muted"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Upcoming"  styleClass="legend-pill legend-upcoming"/>
+        <Label text="Active"    styleClass="legend-pill legend-active"/>
+        <Label text="Completed" styleClass="legend-pill legend-done"/>
+    </HBox>
+
+    <TableView fx:id="shiftsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId"       text="ID"       prefWidth="130"/>
+            <TableColumn fx:id="colSite"     text="Site"     prefWidth="160"/>
+            <TableColumn fx:id="colStart"    text="Start"    prefWidth="150"/>
+            <TableColumn fx:id="colEnd"      text="End"      prefWidth="150"/>
+            <TableColumn fx:id="colDuration" text="Duration" prefWidth="80"/>
+            <TableColumn fx:id="colGuard"    text="Guard"    prefWidth="140"/>
+            <TableColumn fx:id="colStatus"   text="Status"   prefWidth="90"/>
+        </columns>
+        <placeholder><Label text="No shifts yet. Click Create Shift to get started." styleClass="subtitle-label"/></placeholder>
+    </TableView>
+
+    <Label fx:id="statusLabel" styleClass="status-label"/>
+</VBox>
+

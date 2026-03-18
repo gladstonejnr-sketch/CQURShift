@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="secureshift.presentation.controllers.DashboardController"
+      prefWidth="1000" prefHeight="700" spacing="12"
+      stylesheets="@../css/liquid-glass.css"
+      style="-fx-padding: 20; -fx-background-color: #060818;">
+
+    <Label text="Dashboard" styleClass="title-label"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="glass-panel"
+          style="-fx-padding: 12 16; -fx-background-radius: 14; -fx-border-radius: 14;">
+        <Label text="From:" styleClass="field-label"/>
+        <DatePicker fx:id="startDate"/>
+        <Label text="To:" styleClass="field-label"/>
+        <DatePicker fx:id="endDate"/>
+        <Label text="Region:" styleClass="field-label"/>
+        <ComboBox fx:id="regionBox" prefWidth="120"/>
+        <Label text="Skill:" styleClass="field-label"/>
+        <ComboBox fx:id="skillBox" prefWidth="120"/>
+        <Button text="Apply Filters" onAction="#applyFilters" styleClass="btn-primary"/>
+    </HBox>
+
+    <HBox spacing="12" VBox.vgrow="ALWAYS">
+        <PieChart fx:id="guardUtilChart" title="Guard Utilisation"
+                  prefWidth="300" prefHeight="300" HBox.hgrow="ALWAYS"/>
+        <BarChart fx:id="siteShiftChart" title="Shifts per Site"
+                  prefWidth="350" prefHeight="300" HBox.hgrow="ALWAYS">
+            <xAxis><CategoryAxis/></xAxis>
+            <yAxis><NumberAxis/></yAxis>
+        </BarChart>
+        <LineChart fx:id="shiftTrendChart" title="Shift Trend"
+                   prefWidth="350" prefHeight="300" HBox.hgrow="ALWAYS">
+            <xAxis><CategoryAxis/></xAxis>
+            <yAxis><NumberAxis/></yAxis>
+        </LineChart>
+    </HBox>
+
+</VBox>
+

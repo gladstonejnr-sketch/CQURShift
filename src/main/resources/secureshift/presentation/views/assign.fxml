@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="secureshift.presentation.controllers.AssignController"
+      prefWidth="600" prefHeight="450" spacing="18"
+      stylesheets="@../css/liquid-glass.css"
+      style="-fx-padding: 28; -fx-background-color: #060818;">
+
+    <Label text="Assign Guard to Shift" styleClass="title-label"/>
+    <Label text="Select a shift and an available guard, then click Assign."
+           styleClass="subtitle-label"/>
+
+    <VBox spacing="6" styleClass="glass-panel">
+        <Label text="Shift:" styleClass="field-label"/>
+        <ComboBox fx:id="shiftBox" prefWidth="540" maxWidth="540"/>
+        <Label fx:id="shiftInfoLabel" styleClass="subtitle-label"/>
+    </VBox>
+
+    <VBox spacing="6" styleClass="glass-panel">
+        <Label text="Guard:" styleClass="field-label"/>
+        <ComboBox fx:id="guardBox" prefWidth="540" maxWidth="540"/>
+        <Label fx:id="guardInfoLabel" styleClass="subtitle-label"/>
+    </VBox>
+
+    <HBox spacing="10">
+        <Button text="Assign Guard" onAction="#assign"   styleClass="btn-success"/>
+        <Button text="Unassign"     onAction="#unassign" styleClass="btn-danger"/>
+        <Button text="Refresh"      onAction="#refresh"  styleClass="btn-muted"/>
+    </HBox>
+
+    <Label fx:id="statusLabel" styleClass="status-label"/>
+</VBox>
+

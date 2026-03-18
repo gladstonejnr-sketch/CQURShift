@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.web.*?>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:controller="secureshift.presentation.controllers.MainController"
+           stylesheets="@../css/liquid-glass.css" style="-fx-background-color: #060818;">
+    <BorderPane prefWidth="1200" prefHeight="800">
+        <top>
+            <HBox styleClass="glass-topbar" alignment="CENTER_LEFT" minHeight="54" spacing="0">
+                <HBox alignment="CENTER" style="-fx-padding: 0 24 0 20; -fx-border-color: rgba(255,255,255,0.12); -fx-border-width: 0 1 0 0;" minHeight="54">
+                    <Label text="C-QURShift" styleClass="brand-label"/>
+                </HBox>
+                <HBox spacing="0" alignment="CENTER" style="-fx-padding: 0 0 0 8;">
+                    <Button text="Map"        onAction="#openMap"        styleClass="nav-button"/>
+                    <Button text="Guards"     onAction="#openGuards"     styleClass="nav-button"/>
+                    <Button text="Sites"      onAction="#openSites"      styleClass="nav-button"/>
+                    <Button text="Shifts"     onAction="#openShifts"     styleClass="nav-button"/>
+                    <Button text="Assign"     onAction="#openAssign"     styleClass="nav-button"/>
+                    <Button text="Dashboard"  onAction="#openDashboard"  styleClass="nav-button"/>
+                    <Button fx:id="simulationBtn" text="Simulation" onAction="#openSimulation" styleClass="btn-primary" style="-fx-background-radius: 100; -fx-padding: 8 18;"/>
+                </HBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <HBox style="-fx-padding: 0 16;" alignment="CENTER" spacing="12">
+                    <Label fx:id="userLabel" style="-fx-text-fill: rgba(255,255,255,0.55); -fx-font-size: 12px;"/>
+                    <Button text="Logout" onAction="#logout" styleClass="btn-danger" style="-fx-padding: 5 12; -fx-background-radius: 8;"/>
+                    <Button text="Refresh Map" onAction="#refreshMap" styleClass="btn-muted"/>
+                </HBox>
+            </HBox>
+        </top>
+        <center><WebView fx:id="mapView"/></center>
+    </BorderPane>
+    <StackPane fx:id="notificationOverlay" pickOnBounds="false" mouseTransparent="false"/>
+</StackPane>
